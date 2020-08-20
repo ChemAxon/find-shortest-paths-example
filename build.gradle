@@ -66,9 +66,16 @@ if (project.hasProperty('cxnJchemJar')) {
     println ""
     println ""
 
+
+    repositories {
+        mavenCentral()
+    }
+
     dependencies {
         compile files("${cxnJchemJar}")
+        testCompile "junit:junit:4.12"
     }
+    
 } else if (project.hasProperty('cxnHubUser') || project.hasProperty('cxnHubPass')) {
     // Open source configuration available to ChemAxon public repository (hub.chemaxon.com) users
 
@@ -98,12 +105,12 @@ if (project.hasProperty('cxnJchemJar')) {
                 password "${cxnHubPass}"
             }
         }
-        // mavenCentral()
     }
 
     
     dependencies {
         compile "com.chemaxon:calculations:${cxnHubReleaseVersion}"
+        testCompile "junit:junit:4.12"
     }
     
 
@@ -125,7 +132,7 @@ if (project.hasProperty('cxnJchemJar')) {
 
     dependencies {
         compile "com.chemaxon:calculations:${cxnGluonDependencyVersion}"
-	testCompile "junit:junit:4.12"
+        testCompile "junit:junit:4.12"
     }
 
 }

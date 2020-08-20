@@ -21,6 +21,10 @@ Getting started
     ``` bash
     ./gradlew -PcxnJchemJar=../jchem/lib/jchem.jar runShortestPathsExample
     ```
+    
+    Note that some dependencies of this example (like [junit](https://mvnrepository.com/artifact/junit/junit)) is 
+    retrieved from the public 
+    [Maven Central repository](https://docs.gradle.org/current/userguide/declaring_repositories.html#sub:maven_central).
 
   * ChemAxon [public repository (`hub.chemaxon.com`)](https://docs.chemaxon.com/display/docs/Public+Repository) can 
     also be used to retrieve dependencies. Make sure your [ChemAxon pass](https://pass.chemaxon.com/login) email address
@@ -29,7 +33,6 @@ Getting started
     ``` bash
     ./gradlew -PcxnHubUser=<YOUR_PASS_EMAIL> -PcxnHubPass=<YOUR_HUB_API_KEY> runShortestPathsExample
     ```
-   
    
     
 Licensing
