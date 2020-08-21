@@ -41,52 +41,51 @@ Output of the example is expected to be:
 
 
 ``` bash
-Find shortest paths in C(=C/C(=O)O)\C(=O)O
+Find shortest paths in CN1C=NC2=C1C(=O)N(C(=O)N2C)C     Caffeine
 
 Using central atom # 0
-    FindShortestPaths instance: a1: 0, shortest distances from a1: [0, 1, 2, 3, 3, 1, 2, 2]
+    FindShortestPaths instance: a1: 0, shortest distances from a1: [0, 1, 2, 3, 3, 2, 3, 4, 4, 5, 6, 4, 5, 5]
         0 - 1 length: 1, path: [0, 1]
         0 - 2 length: 2, path: [0, 1, 2]
         0 - 3 length: 3, path: [0, 1, 2, 3]
-        0 - 4 length: 3, path: [0, 1, 2, 4]
-        0 - 5 length: 1, path: [0, 5]
-        0 - 6 length: 2, path: [0, 5, 6]
-        0 - 7 length: 2, path: [0, 5, 7]
+        0 - 4 length: 3, path: [0, 1, 5, 4]
+        0 - 5 length: 2, path: [0, 1, 5]
+        0 - 6 length: 3, path: [0, 1, 5, 6]
+        0 - 7 length: 4, path: [0, 1, 5, 6, 7]
+        0 - 8 length: 4, path: [0, 1, 5, 6, 8]
+        0 - 9 length: 5, path: [0, 1, 5, 6, 8, 9]
+                         all paths:
+                                [0, 1, 5, 6, 8, 9]
+                                [0, 1, 5, 4, 11, 9]
+        0 - 10 length: 6, path: [0, 1, 5, 6, 8, 9, 10]
+                         all paths:
+                                [0, 1, 5, 6, 8, 9, 10]
+                                [0, 1, 5, 4, 11, 9, 10]
+        0 - 11 length: 4, path: [0, 1, 5, 4, 11]
+        0 - 12 length: 5, path: [0, 1, 5, 4, 11, 12]
+        0 - 13 length: 5, path: [0, 1, 5, 6, 8, 13]
 Using central atom # 1
-    FindShortestPaths instance: a1: 1, shortest distances from a1: [1, 0, 1, 2, 2, 2, 3, 3]
+    FindShortestPaths instance: a1: 1, shortest distances from a1: [1, 0, 1, 2, 2, 1, 2, 3, 3, 4, 5, 3, 4, 4]
         1 - 2 length: 1, path: [1, 2]
         1 - 3 length: 2, path: [1, 2, 3]
-        1 - 4 length: 2, path: [1, 2, 4]
-        1 - 5 length: 2, path: [1, 0, 5]
-        1 - 6 length: 3, path: [1, 0, 5, 6]
-        1 - 7 length: 3, path: [1, 0, 5, 7]
-Using central atom # 2
-    FindShortestPaths instance: a1: 2, shortest distances from a1: [2, 1, 0, 1, 1, 3, 4, 4]
-        2 - 3 length: 1, path: [2, 3]
-        2 - 4 length: 1, path: [2, 4]
-        2 - 5 length: 3, path: [2, 1, 0, 5]
-        2 - 6 length: 4, path: [2, 1, 0, 5, 6]
-        2 - 7 length: 4, path: [2, 1, 0, 5, 7]
-Using central atom # 3
-    FindShortestPaths instance: a1: 3, shortest distances from a1: [3, 2, 1, 0, 2, 4, 5, 5]
-        3 - 4 length: 2, path: [3, 2, 4]
-        3 - 5 length: 4, path: [3, 2, 1, 0, 5]
-        3 - 6 length: 5, path: [3, 2, 1, 0, 5, 6]
-        3 - 7 length: 5, path: [3, 2, 1, 0, 5, 7]
-Using central atom # 4
-    FindShortestPaths instance: a1: 4, shortest distances from a1: [3, 2, 1, 2, 0, 4, 5, 5]
-        4 - 5 length: 4, path: [4, 2, 1, 0, 5]
-        4 - 6 length: 5, path: [4, 2, 1, 0, 5, 6]
-        4 - 7 length: 5, path: [4, 2, 1, 0, 5, 7]
-Using central atom # 5
-    FindShortestPaths instance: a1: 5, shortest distances from a1: [1, 2, 3, 4, 4, 0, 1, 1]
-        5 - 6 length: 1, path: [5, 6]
-        5 - 7 length: 1, path: [5, 7]
-Using central atom # 6
-    FindShortestPaths instance: a1: 6, shortest distances from a1: [2, 3, 4, 5, 5, 1, 0, 2]
-        6 - 7 length: 2, path: [6, 5, 7]
-Using central atom # 7
-    FindShortestPaths instance: a1: 7, shortest distances from a1: [2, 3, 4, 5, 5, 1, 2, 0]
+        1 - 4 length: 2, path: [1, 5, 4]
+        1 - 5 length: 1, path: [1, 5]
+        1 - 6 length: 2, path: [1, 5, 6]
+        1 - 7 length: 3, path: [1, 5, 6, 7]
+        1 - 8 length: 3, path: [1, 5, 6, 8]
+        1 - 9 length: 4, path: [1, 5, 6, 8, 9]
+                         all paths:
+                                [1, 5, 6, 8, 9]
+                                [1, 5, 4, 11, 9]
+        1 - 10 length: 5, path: [1, 5, 6, 8, 9, 10]
+                         all paths:
+                                [1, 5, 6, 8, 9, 10]
+                                [1, 5, 4, 11, 9, 10]
+        1 - 11 length: 3, path: [1, 5, 4, 11]
+        1 - 12 length: 4, path: [1, 5, 4, 11, 12]
+        1 - 13 length: 4, path: [1, 5, 6, 8, 13]
+
+...
 ```
 
 Running tests

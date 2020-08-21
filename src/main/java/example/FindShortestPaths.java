@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 ChemAxon Ltd.
+ * Copyright 2020 ChemAxon Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,12 @@
 
 package example;
 
+import chemaxon.marvin.modelling.util.U;
 import chemaxon.struc.Molecule;
+import com.google.common.collect.AbstractIterator;
+import com.google.common.collect.Iterators;
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Find shortest paths from a central atom.
@@ -140,14 +144,13 @@ public class FindShortestPaths {
             return ret;
         }
 
-
         // fill path backwards
         for (int i = ret.length - 2; i >= 0; i--) {
             // fill position i with atom which
             //  - is a neighbor of the next (filled) atom
             //  - and is one step closer to the centrum
             final int lastAtom = ret[i + 1];
-            final int nextPathLength = getShortestPathLengthTo(lastAtom) - 1;
+            final int nextPathLength = i; // getShortestPathLengthTo(lastAtom) - 1;
             for (int ni = 0; ni < this.ctab[lastAtom].length; ni++) {
                 final int candidateAtom = this.ctab[lastAtom][ni];
 
@@ -164,8 +167,99 @@ public class FindShortestPaths {
     @Override
     public String toString() {
         return "a1: " + this.a1 + ", shortest distances from a1: " + Arrays.toString(this.shortestDistanceFromA1);
-
     }
 
+    /**
+     * Complete path.
+     *
+     * @param pathAtoms Atoms in the path
+     * @param neighborChoices Neighbor choices made: element {@code [i]} contains which {@code ctab} member is chosen
+     * for the next atom in the path to arrive
+     * @param startFillFrom Last index in the arrays to complete; larger indices represent a valid path
+     */
+    private void completePath(int [] pathAtoms, int [] neighborChoices, int startFillFrom) {
+        // fill path backwards
+        for (int i = startFillFrom; i >= 0; i--) {
+            if (i < startFillFrom) { neighborChoices[i] = 0; }
+
+            // fill position i with atom which
+            //  - is a neighbor of the next (filled) atom
+            //  - and is one step closer to the centrum
+            final int lastAtom = pathAtoms[i + 1];
+            final int nextPathLength = i;
+            for (int ni = neighborChoices[i]; ni < this.ctab[lastAtom].length; ni++) {
+                final int candidateAtom = this.ctab[lastAtom][ni];
+
+                if (this.shortestDistanceFromA1[candidateAtom] == nextPathLength) {
+                    pathAtoms[i] = candidateAtom;
+                    neighborChoices[i] = ni;
+                    break;
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Enumerate all shortest papth to an other atom.
+     *
+     * @param a2 Other atom
+     * @return Iterator of shortest paths.
+     * @throws IllegalArgumentException when no path exists
+     */
+    public Iterator<int []> enumerateShortestPathsTo(int a2) throws IllegalArgumentException {
+        if (!isPathExistsTo(a2)) {
+            throw new IllegalArgumentException("No path found between central atom " + a1 + " and " + a2);
+        }
+
+
+
+        final int[] pathAtoms = new int[ getShortestPathLengthTo(a2) + 1 ];
+        final int[] neighborChoices = new int[ getShortestPathLengthTo(a2) + 1];
+
+        pathAtoms[pathAtoms.length - 1] = a2;
+
+        if (a1 == a2) {
+            return Iterators.singletonIterator(pathAtoms);
+        }
+
+
+        final int startFillFrom = pathAtoms.length - 2;
+        completePath(pathAtoms, neighborChoices, startFillFrom);
+
+
+        return new AbstractIterator<int[]>() {
+            boolean pathAtomsValid = true;
+
+            @Override
+            protected int[] computeNext() {
+                if (pathAtomsValid) {
+                    pathAtomsValid = false;
+                    return U.clone(pathAtoms);
+                }
+
+                // try to bump neighbor choices
+                boolean found = false;
+                for (int i = 0; !found && i < pathAtoms.length - 1; i++) {
+                    final int nextAtomInPath = pathAtoms[i + 1];
+
+                    while (neighborChoices[i] < ctab[nextAtomInPath].length - 1) {
+                        neighborChoices[i]++;
+                        if (getShortestPathLengthTo(ctab[nextAtomInPath][neighborChoices[i]]) == i) {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (found) {
+                        completePath(pathAtoms, neighborChoices, i);
+                        return U.clone(pathAtoms);
+                    }
+                }
+
+                return endOfData();
+            }
+        };
+    }
 
 }
