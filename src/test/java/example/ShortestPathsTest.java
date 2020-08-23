@@ -21,6 +21,7 @@ import chemaxon.marvin.calculations.TopologyAnalyserPlugin;
 import chemaxon.struc.Molecule;
 import static com.chemaxon.calculations.util.MU.ofSmiles;
 import com.google.common.collect.Lists;
+import java.util.BitSet;
 import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -90,6 +91,18 @@ public class ShortestPathsTest {
         }
     }
 
+    public static void ensureUnionMatches(List<int []> allPaths, BitSet union) {
+        final BitSet unionRecalc = new BitSet();
+        for (int [] p : allPaths) {
+            assertThat("path starts present in union", union.get(p[0]), is(true));
+            assertThat("path ends present in union", union.get(p[p.length - 1]), is(true));
+            for (int i : p) {
+                unionRecalc.set(i);
+            }
+        }
+        assertThat("Union atoms match", union, is(unionRecalc));
+    }
+
     public static void ensure_consistency_with_topologyanalyser(final Molecule m) throws Exception {
         final TopologyAnalyserPlugin plugin = new TopologyAnalyserPlugin();
         plugin.setMolecule(m);
@@ -124,7 +137,7 @@ public class ShortestPathsTest {
                         }
                     }
 
-
+                    ensureUnionMatches(allPaths, fp.unionOfShortestPaths(a2));
                 } else {
                     assertThat("Plugin found disconnected fragment", tap_path_length, is(Integer.MAX_VALUE));
                 }

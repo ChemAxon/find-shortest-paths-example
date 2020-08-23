@@ -57,10 +57,14 @@ Using central atom # 0
                          all paths:
                                 [0, 1, 5, 6, 8, 9]
                                 [0, 1, 5, 4, 11, 9]
+                         union of all paths:
+                                {0, 1, 4, 5, 6, 8, 9, 11}
         0 - 10 length: 6, path: [0, 1, 5, 6, 8, 9, 10]
                          all paths:
                                 [0, 1, 5, 6, 8, 9, 10]
                                 [0, 1, 5, 4, 11, 9, 10]
+                         union of all paths:
+                                {0, 1, 4, 5, 6, 8, 9, 10, 11}
         0 - 11 length: 4, path: [0, 1, 5, 4, 11]
         0 - 12 length: 5, path: [0, 1, 5, 4, 11, 12]
         0 - 13 length: 5, path: [0, 1, 5, 6, 8, 13]
@@ -77,10 +81,14 @@ Using central atom # 1
                          all paths:
                                 [1, 5, 6, 8, 9]
                                 [1, 5, 4, 11, 9]
+                         union of all paths:
+                                {1, 4, 5, 6, 8, 9, 11}
         1 - 10 length: 5, path: [1, 5, 6, 8, 9, 10]
                          all paths:
                                 [1, 5, 6, 8, 9, 10]
                                 [1, 5, 4, 11, 9, 10]
+                         union of all paths:
+                                {1, 4, 5, 6, 8, 9, 10, 11}
         1 - 11 length: 3, path: [1, 5, 4, 11]
         1 - 12 length: 4, path: [1, 5, 4, 11, 12]
         1 - 13 length: 4, path: [1, 5, 6, 8, 13]

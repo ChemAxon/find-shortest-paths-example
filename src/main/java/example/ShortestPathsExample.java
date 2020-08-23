@@ -65,6 +65,9 @@ public class ShortestPathsExample {
                 if (allPaths.size() > 1) {
                     System.out.println("                         all paths:");
                     allPaths.forEach(p -> System.out.println("                                " + Arrays.toString(p)));
+                    System.out.println("                         union of all paths:");
+                    System.out.println("                                " + fsp.unionOfShortestPaths(j));
+
                 }
             }
         }

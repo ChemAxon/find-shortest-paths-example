@@ -22,6 +22,7 @@ import chemaxon.struc.Molecule;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.Iterators;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Iterator;
 
 /**
@@ -260,6 +261,77 @@ public class FindShortestPaths {
                 return endOfData();
             }
         };
+    }
+
+    /**
+     * Atom count.
+     *
+     * @return Atom count
+     */
+    public int getAtomCount() {
+        return ctab.length;
+    }
+
+    /**
+     * Union of shortest paths from single atom.
+     *
+     *
+     * @param startAtom Start atom index.
+     * @return Atom indices from the union of all of the shortest paths starting from the specified atom
+     */
+    public BitSet unionOfShortestPaths(int startAtom) {
+        final BitSet start = new BitSet();
+        start.set(startAtom);
+        return unionOfShortestPaths(start);
+    }
+
+    /**
+     * Union of shortest paths from multiple atoms.
+     *
+     *
+     * @param startAtoms Start atom indices. An arbitrary set of atoms.
+     * @return Atom indices from the union of all of the shortest paths starting from the specified atoms
+     */
+    public BitSet unionOfShortestPaths(BitSet startAtoms) {
+        BitSet ret = new BitSet(getAtomCount());
+
+        ret.or(startAtoms);
+
+        BitSet currentSet = startAtoms;
+        while (true) {
+            boolean stepMade = false;
+            BitSet nextSet = new BitSet(getAtomCount());
+
+            for (int i = currentSet.nextSetBit(0); i >= 0; i = currentSet.nextSetBit(i+1)) {
+                // operate on index i here
+                final int distanceI = getShortestPathLengthTo(i);
+                if (distanceI == 0) {
+                    break;
+                }
+                final int prevDistance = distanceI - 1;
+
+                for (int neighborIndex = 0; neighborIndex < ctab[i].length; neighborIndex++) {
+                    final int neighborAtom = this.ctab[i][neighborIndex];
+                    final int neghborDistance = getShortestPathLengthTo(neighborAtom);
+                    if (neghborDistance == prevDistance) {
+                        stepMade = true;
+                        nextSet.set(neighborAtom);
+                    }
+                }
+
+                if (i == Integer.MAX_VALUE) {
+                    break; // or (i+1) would overflow
+                }
+            }
+
+            ret.or(nextSet);
+            currentSet = nextSet;
+
+            if (!stepMade) {
+                break;
+            }
+        }
+        return ret;
     }
 
 }
